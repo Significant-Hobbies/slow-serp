@@ -4,9 +4,9 @@ A small, self-hosted scraping service and scheduled crawler. It uses bounded HTT
 
 It has three entry points:
 
-- `npm start` exposes the paced Google search API.
-- `npm run jobs` collects normalized public job listings into dated JSON and CSV.
-- `npm run crawl` runs the general target registry, capturing ordinary pages or invoking the jobs extractor as configured.
+- `pnpm start` exposes the paced Google search API.
+- `pnpm run jobs` collects normalized public job listings into dated JSON and CSV.
+- `pnpm run crawl` runs the general target registry, capturing ordinary pages or invoking the jobs extractor as configured.
 
 This is intentionally not a CAPTCHA solver or an aggressive crawler. If Google returns a consent, unusual-traffic, or challenge page, the API stops with an `upstream_blocked` error so the profile or egress can be checked by a human.
 
@@ -34,16 +34,16 @@ This is intentionally not a CAPTCHA solver or an aggressive crawler. If Google r
 ```bash
 git clone https://github.com/sarthakagrawal927/slow-serp.git
 cd slow-serp
-npm ci
-npm test
-npm run doctor
+pnpm install --frozen-lockfile
+pnpm test
+pnpm run doctor
 ```
 
 Run the general registry or the dedicated jobs collector:
 
 ```bash
-SCRAPER_HEADLESS=true SCRAPER_BLOCK_RESOURCES=true npm run crawl
-SCRAPER_HEADLESS=true SCRAPER_BLOCK_RESOURCES=true npm run jobs
+SCRAPER_HEADLESS=true SCRAPER_BLOCK_RESOURCES=true pnpm run crawl
+SCRAPER_HEADLESS=true SCRAPER_BLOCK_RESOURCES=true pnpm run jobs
 ```
 
 ## General targets
@@ -78,20 +78,20 @@ Each crawl writes `data/crawls/latest.json` plus a gzip-compressed timestamped r
 
 ## Background operation on macOS
 
-The bundled LaunchAgent runs `npm run crawl` immediately and every six hours. It uses headless Chrome, three concurrent target pages, resource blocking, `caffeinate` during each run, and local log files. No credentials are embedded in the agent.
+The bundled LaunchAgent runs `pnpm run crawl` immediately and every six hours. It uses headless Chrome, three concurrent target pages, resource blocking, `caffeinate` during each run, and local log files. No credentials are embedded in the agent.
 
 The scheduled crawler uses its own Chrome profile so it cannot collide with an independently running API service.
 
 ```bash
-npm run macos:validate
-npm run macos:install
-npm run macos:status
+pnpm run macos:validate
+pnpm run macos:install
+pnpm run macos:status
 ```
 
 Results appear under `data/crawls/`; logs appear under `logs/`. Keep the Mac powered and connected to the network. To stop and remove the background job:
 
 ```bash
-npm run macos:uninstall
+pnpm run macos:uninstall
 ```
 
 ## Google search API
@@ -99,8 +99,8 @@ npm run macos:uninstall
 Run a direct smoke test or start the local service:
 
 ```bash
-npm run smoke -- "best mechanical keyboards"
-SCRAPER_API_KEY='replace-with-a-strong-random-value' npm start
+pnpm run smoke -- "best mechanical keyboards"
+SCRAPER_API_KEY='replace-with-a-strong-random-value' pnpm start
 ```
 
 The service binds to `127.0.0.1:8787` by default. Keep that default and put an authenticated TLS reverse proxy in front of it, or deliberately set a private-network bind address.
