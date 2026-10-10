@@ -1,3 +1,5 @@
+> **Moved.** Slow SERP now lives in SaaS Maker as shared collection tooling: [`tooling/collect`](https://github.com/sass-maker/saas-maker/tree/main/tooling/collect) (merged 2026-10-10, sass-maker/saas-maker#234, issue #220). This repository is retired and kept for history only.
+
 # slow-serp
 
 A small, self-hosted scraping service and scheduled crawler. It uses bounded HTTP fetching first, then automatically falls back to the machine's installed **Google Chrome** only when rendering is required.
